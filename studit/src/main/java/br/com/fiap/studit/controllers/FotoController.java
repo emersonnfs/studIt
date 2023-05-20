@@ -1,5 +1,6 @@
 package br.com.fiap.studit.controllers;
 
+import br.com.fiap.studit.dtos.FotoDTO;
 import br.com.fiap.studit.models.Foto;
 import br.com.fiap.studit.services.FotoService;
 import jakarta.validation.Valid;
@@ -16,8 +17,8 @@ public class FotoController {
     private final FotoService fotoService;
 
     @Autowired
-    public FotoController(FotoService fotoService){
-        this.fotoService= fotoService;
+    public FotoController(FotoService fotoService) {
+        this.fotoService = fotoService;
     }
 
     @GetMapping
@@ -39,11 +40,26 @@ public class FotoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Foto> updateFoto(@PathVariable Long id, @RequestBody @Valid Foto foto) {
+    public ResponseEntity<Foto> updateFoto(@PathVariable Long id, @RequestBody @Valid FotoDTO fotoDTO) {
         Optional<Foto> existingFoto = fotoService.getFotoById(id);
 
         if (existingFoto.isPresent()) {
-            foto.setId(id);
+            Foto foto = existingFoto.get();
+
+            // Atualiza os campos com os valores do FotoDTO
+            if (fotoDTO.getUrl() != null) {
+                foto.setUrl(fotoDTO.getUrl());
+            }
+            if (fotoDTO.getDescricao() != null) {
+                foto.setDescricao(fotoDTO.getDescricao());
+            }
+            if (fotoDTO.getTamanhoBytes() != 0) {
+                foto.setTamanhoBytes(fotoDTO.getTamanhoBytes());
+            }
+            if (fotoDTO.getDataCriacao() != null) {
+                foto.setDataCriacao(fotoDTO.getDataCriacao());
+            }
+
             Foto updatedFoto = fotoService.updateFoto(foto);
             return ResponseEntity.ok(updatedFoto);
         } else {

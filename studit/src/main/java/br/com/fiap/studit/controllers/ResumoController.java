@@ -1,5 +1,5 @@
 package br.com.fiap.studit.controllers;
-
+import br.com.fiap.studit.dtos.ResumoDTO;
 import br.com.fiap.studit.models.Resumo;
 import br.com.fiap.studit.services.ResumoService;
 import jakarta.validation.Valid;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -56,14 +55,27 @@ public class ResumoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Resumo> updateResumo(@PathVariable Long id, @RequestBody @Valid Resumo resumo) {
+    public ResponseEntity<Resumo> updateResumo(@PathVariable Long id, @RequestBody @Valid ResumoDTO resumoDTO) {
         Optional<Resumo> existingResumo = resumoService.getResumoById(id);
+
         if (existingResumo.isPresent()) {
-            resumo.setId(id);
+            Resumo resumo = existingResumo.get();
+
+            if (resumoDTO.getConteudo() != null) {
+                resumo.setConteudo(resumoDTO.getConteudo());
+            }
+            if (resumoDTO.getDataCriacao() != null) {
+                resumo.setDataCriacao(resumoDTO.getDataCriacao());
+            }
+            if (resumoDTO.getMateriaEnum() != null) {
+                resumo.setMateriaEnum(resumoDTO.getMateriaEnum());
+            }
+
             Resumo updatedResumo = resumoService.updateResumo(resumo);
             return ResponseEntity.ok(updatedResumo);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")

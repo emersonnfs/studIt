@@ -1,5 +1,6 @@
 package br.com.fiap.studit.controllers;
 
+import br.com.fiap.studit.dtos.ExercicioDTO;
 import br.com.fiap.studit.models.Exercicio;
 import br.com.fiap.studit.services.ExercicioService;
 import jakarta.validation.Valid;
@@ -52,14 +53,33 @@ public class ExercicioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Exercicio> updateExercicio(@PathVariable Long id, @RequestBody @Valid Exercicio exercicio) {
+    public ResponseEntity<Exercicio> updateExercicio(@PathVariable Long id, @RequestBody @Valid ExercicioDTO exercicioDTO) {
         Optional<Exercicio> existingExercicio = exercicioService.getExercicioById(id);
+
         if (existingExercicio.isPresent()) {
-            exercicio.setId(id);
+            Exercicio exercicio = existingExercicio.get();
+
+            if (exercicioDTO.getPergunta() != null) {
+                exercicio.setPergunta(exercicioDTO.getPergunta());
+            }
+            if (exercicioDTO.getAlternativas() != null) {
+                exercicio.setAlternativas(exercicioDTO.getAlternativas());
+            }
+            if (exercicioDTO.getResposta() != null) {
+                exercicio.setResposta(exercicioDTO.getResposta());
+            }
+            if (exercicioDTO.getResolucao() != null) {
+                exercicio.setResolucao(exercicioDTO.getResolucao());
+            }
+            if (exercicioDTO.getMateriaEnum() != null) {
+                exercicio.setMateriaEnum(exercicioDTO.getMateriaEnum());
+            }
+
             Exercicio updatedExercicio = exercicioService.updateExercicio(exercicio);
             return ResponseEntity.ok(updatedExercicio);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")

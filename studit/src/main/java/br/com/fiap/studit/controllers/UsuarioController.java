@@ -1,5 +1,6 @@
 package br.com.fiap.studit.controllers;
 
+import br.com.fiap.studit.dtos.UsuarioDTO;
 import br.com.fiap.studit.models.Usuario;
 import br.com.fiap.studit.services.UsuarioService;
 import jakarta.validation.Valid;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,10 +29,9 @@ public class UsuarioController {
     public ResponseEntity<Page<Usuario>> getAllUsuarios(@RequestParam(required = false) String nome,
                                                         @PageableDefault(sort = "dataNascimento", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Usuario> usuarios;
-        if(nome != null){
-            usuarios = usuarioService.getAllUsuariosByNomeContainingIgnoreCase(nome,pageable);
-        }
-        else{
+        if (nome != null) {
+            usuarios = usuarioService.getAllUsuariosByNomeContainingIgnoreCase(nome, pageable);
+        } else {
             usuarios = usuarioService.getAllUsuarios(pageable);
         }
         return ResponseEntity.ok(usuarios);
@@ -51,15 +50,31 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody @Valid Usuario usuario) {
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody @Valid UsuarioDTO usuarioDTO) {
         Optional<Usuario> existingUsuario = usuarioService.getUsuarioById(id);
         if (existingUsuario.isPresent()) {
-            usuario.setId(id);
+            Usuario usuario = existingUsuario.get();
+            if (usuarioDTO.getNome() != null) {
+                usuario.setNome(usuarioDTO.getNome());
+            }
+            if (usuarioDTO.getEmail() != null) {
+                usuario.setEmail(usuarioDTO.getEmail());
+            }
+            if (usuarioDTO.getSenha() != null) {
+                usuario.setSenha(usuarioDTO.getSenha());
+            }
+            if (usuarioDTO.getDataNascimento() != null) {
+                usuario.setDataNascimento(usuarioDTO.getDataNascimento());
+            }
+
             Usuario updatedUsuario = usuarioService.updateUsuario(usuario);
             return ResponseEntity.ok(updatedUsuario);
         }
         return ResponseEntity.notFound().build();
     }
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuarioById(@PathVariable Long id) {

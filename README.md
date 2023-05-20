@@ -33,13 +33,13 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 
 ## Usuários
 
-| Campo | Tipo | Obrigatório | Descrição 
-|-------|------|-------------|-----------
-| nome | String | Sim | Aqui vai o nome do usuário
-| email | String | Sim | Aqui vai o email do usuário
-| senha | String | Sim | Aqui vai o senha do usuário
-| data | LocalDate | Não | Aqui vai a data de nascimento do usuário
-| foto | Foto | Não | Aqui vai a foto do perfil
+| Campo | Tipo          | Obrigatório | Descrição 
+|-------|---------------|-------------|-----------
+| nome | String        | Sim | Aqui vai o nome do usuário
+| email | String        | Sim | Aqui vai o email do usuário
+| senha | String        | Sim | Aqui vai o senha do usuário
+| data | LocalDateTime | Não | Aqui vai a data de nascimento do usuário
+| foto | List<Foto>    | Não | Aqui vai a foto do perfil
 
 ### Cadastrar Usuário
 
@@ -50,14 +50,12 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "nome": "Fulano de Tal",
-        "email": "fulano@example.com",
-        "senha": "senha123",
-        "data": "1990-01-01",
-        "foto": {
-            "id": "1"
-        }
+      "nome": "Carlos Santos",
+      "email": "carlos.santos@example.com",
+      "senha": "senha321",
+      "dataNascimento": "1995-06-25T11:30:00"
     }
+
 
 ```
 
@@ -77,34 +75,75 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        {
-            "nome": "Fulano de Tal",
-            "email": "fulano@example.com",
-            "senha": "senha123",
-            "data": "1990-01-01",
-            "foto": {
-                "id": "1",
-                "url": "http://example.com/foto.jpg",
-                "descricao": "Minha foto de perfil",
-                "tamanho": 1024,
-                "dataCriacao": "2023-04-06T10:00:00Z"
+        "content": [
+            {
+                "id": 22,
+                "nome": "Pedro Souza",
+                "email": "pedro.souza@example.com",
+                "senha": "senha789",
+                "dataNascimento": "1985-12-10T08:45:00"
             },
-            "id": "1"
+            {
+                "id": 21,
+                "nome": "Maria Santos",
+                "email": "maria.santos@example.com",
+                "senha": "senha456",
+                "dataNascimento": "1990-05-15T14:30:00"
+            },
+            {
+                "id": 24,
+                "nome": "Carlos Santos",
+                "email": "carlos.santos@example.com",
+                "senha": "senha321",
+                "dataNascimento": "1995-06-25T11:30:00"
+            },
+            {
+                "id": 23,
+                "nome": "Ana Oliveira",
+                "email": "ana.oliveira@example.com",
+                "senha": "senha987",
+                "dataNascimento": "1998-09-20T09:15:00"
+            },
+            {
+                "id": 2,
+                "nome": "João Silva",
+                "email": "joao.silva@example.com",
+                "senha": "senha123",
+                "dataNascimento": "2022-01-01T10:00:00"
+            },
+            {
+                "id": 1,
+                "nome": "João Silva",
+                "email": "joao.silva@example.com",
+                "senha": "senha123",
+                "dataNascimento": "2022-01-01T10:00:00"
+            }
+        ],
+        "pageable": {
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "pageSize": 10,
+            "pageNumber": 0,
+            "unpaged": false,
+            "paged": true
         },
-        {
-            "nome": "Beltrano da Silva",
-            "email": "beltrano@example.com",
-            "senha": "senha456",
-            "data": "1995-05-05",
-            "foto": {
-                "id": "2",
-                "url": "http://example.com/foto2.jpg",
-                "descricao": "Minha segunda foto de perfil",
-                "tamanho": 2048,
-                "dataCriacao": "2023-04-06T11:00:00Z"
-            },
-            "id": "2"
-        }
+        "totalElements": 6,
+        "totalPages": 1,
+        "last": true,
+        "size": 10,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "numberOfElements": 6,
+        "first": true,
+        "empty": false
     }
 
 ```
@@ -125,18 +164,11 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "nome": "Fulano de Tal",
-        "email": "fulano@example.com",
+        "id": 1,
+        "nome": "João Silva",
+        "email": "joao.silva@example.com",
         "senha": "senha123",
-        "data": "1990-01-01",
-        "foto": {
-            "id": "1",
-            "url": "http://example.com/foto.jpg",
-            "descricao": "Minha foto de perfil",
-            "tamanho": 1024,
-            "dataCriacao": "2023-04-06T10:00:00Z"
-        },
-        "id": "1"
+        "dataNascimento": "2022-01-01T10:00:00"
     }
 
 ```
@@ -170,13 +202,7 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "nome": "Beltrano de Tal",
-        "email": "beltrano@example.com",
-        "senha": "senha123",
-        "data": "1995-05-05",
-        "foto": {
-            "id": "1"
-        }
+        "email": "beltrano@example.com"
     }
 
 ```
@@ -208,11 +234,15 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "url": "http://example.com/foto.jpg",
-        "descricao": "Minha foto de perfil",
-        "tamanho": 1024,
-        "dataCriacao": "2023-04-06T10:00:00Z"
+      "url": "https://example.com/foto5.jpg",
+      "descricao": "Foto de comida",
+      "tamanhoBytes": 5120,
+      "dataCriacao": "2023-05-20T18:30:00",
+      "usuario": {
+        "id": 24
+      }
     }
+
 
 ```
 
@@ -231,22 +261,92 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 
 ```js
 
-    {
+    [
         {
-            "id": "1",
-            "url": "http://example.com/foto.jpg",
-            "descricao": "Minha foto de perfil",
-            "tamanho": 1024,
-            "dataCriacao": "2023-04-06T10:00:00Z"
+            "id": 21,
+            "url": "https://example.com/foto1.jpg",
+            "descricao": "Foto de paisagem",
+            "tamanhoBytes": 1024,
+            "dataCriacao": "2023-05-20T15:30:00",
+            "usuario": {
+                "id": 1,
+                "nome": "João Silva",
+                "email": "joao.silva@example.com",
+                "senha": "senha123",
+                "dataNascimento": "2022-01-01T10:00:00"
+            }
         },
         {
-            "id": "2",
-            "url": "http://example.com/foto2.jpg",
-            "descricao": "Minha segunda foto de perfil",
-            "tamanho": 2048,
-            "dataCriacao": "2023-04-06T11:00:00Z"
+            "id": 22,
+            "url": "https://example.com/foto2.jpg",
+            "descricao": "Retrato em preto e branco",
+            "tamanhoBytes": 2048,
+            "dataCriacao": "2023-05-20T16:45:00",
+            "usuario": {
+                "id": 21,
+                "nome": "Maria Santos",
+                "email": "maria.santos@example.com",
+                "senha": "senha456",
+                "dataNascimento": "1990-05-15T14:30:00"
+            }
+        },
+        {
+            "id": 23,
+            "url": "https://example.com/foto3.jpg",
+            "descricao": "Foto de arquitetura",
+            "tamanhoBytes": 3072,
+            "dataCriacao": "2023-05-20T17:15:00",
+            "usuario": {
+                "id": 22,
+                "nome": "Pedro Souza",
+                "email": "pedro.souza@example.com",
+                "senha": "senha789",
+                "dataNascimento": "1985-12-10T08:45:00"
+            }
+        },
+        {
+            "id": 24,
+            "url": "https://example.com/foto4.jpg",
+            "descricao": "Foto de animais",
+            "tamanhoBytes": 4096,
+            "dataCriacao": "2023-05-20T18:00:00",
+            "usuario": {
+                "id": 23,
+                "nome": "Ana Oliveira",
+                "email": "ana.oliveira@example.com",
+                "senha": "senha987",
+                "dataNascimento": "1998-09-20T09:15:00"
+            }
+        },
+        {
+            "id": 25,
+            "url": "https://example.com/foto5.jpg",
+            "descricao": "Foto de comida",
+            "tamanhoBytes": 5120,
+            "dataCriacao": "2023-05-20T18:30:00",
+            "usuario": {
+                "id": 24,
+                "nome": "Carlos Santos",
+                "email": "carlos.santos@example.com",
+                "senha": "senha321",
+                "dataNascimento": "1995-06-25T11:30:00"
+            }
+        },
+        {
+            "id": 1,
+            "url": "https://example.com/image.jpg",
+            "descricao": "Foto de paisagem",
+            "tamanhoBytes": 1024,
+            "dataCriacao": "2022-01-01T15:00:00",
+            "usuario": {
+                "id": 1,
+                "nome": "João Silva",
+                "email": "joao.silva@example.com",
+                "senha": "senha123",
+                "dataNascimento": "2022-01-01T10:00:00"
+            }
         }
-    }
+    ]
 
 ```
 
@@ -266,11 +366,18 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "id": "1",
-        "url": "http://example.com/foto.jpg",
-        "descricao": "Minha foto de perfil",
-        "tamanho": 1024,
-        "dataCriacao": "2023-04-06T10:00:00Z"
+        "id": 1,
+        "url": "https://example.com/image.jpg",
+        "descricao": "Foto de paisagem",
+        "tamanhoBytes": 1024,
+        "dataCriacao": "2022-01-01T15:00:00",
+        "usuario": {
+            "id": 1,
+            "nome": "João Silva",
+            "email": "joao.silva@example.com",
+            "senha": "senha123",
+            "dataNascimento": "2022-01-01T10:00:00"
+        }
     }
 
 ```
@@ -304,10 +411,7 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "url": "http://example.com/foto.jpg",
-        "descricao": "Minha foto de perfil atualizada",
-        "tamanho": 2048,
-        "dataCriacao": "2023-04-06T10:00:00Z"
+        "tamanhoBytes": 2048
     }
 
 ```
@@ -339,10 +443,12 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "titulo": "Título do resumo",
-        "conteudo": "Conteúdo do resumo",
-        "dataCriacao": "2023-04-07T10:00:00",
-        "materia": "MATEMATICA"
+        "conteudo": "A mudança da capital do Brasil para Brasília está relacionada a uma série de fatores históricos, políticos e geográficos.",
+        "dataCriacao": "2022-01-01T14:30:00",
+        "materiaEnum": "Geografia",
+        "usuario": {
+            "id": 1
+        }
     }
 
 ```
@@ -363,20 +469,98 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        {        
-            "id": 1,        
-            "titulo": "Título do resumo 1",        
-            "conteudo": "Conteúdo do resumo 1",        
-            "dataCriacao": "2023-04-07T10:00:00",        
-            "materia": "MATEMATICA"    
-        },    
-        {        
-            "id": 2,        
-            "titulo": "Título do resumo 2",        
-            "conteudo": "Conteúdo do resumo 2",        
-            "dataCriacao": "2023-04-08T14:00:00",        
-            "materia": "PORTUGUES"    
-        }
+        "content": [
+            {
+                "id": 1,
+                "conteudo": "A mudança da capital do Brasil para Brasília está relacionada a uma série de fatores históricos, políticos e geográficos.",
+                "dataCriacao": "2022-01-01T14:30:00",
+                "materiaEnum": "Geografia",
+                "usuario": {
+                    "id": 1,
+                    "nome": "João Silva",
+                    "email": "joao.silva@example.com",
+                    "senha": "senha123",
+                    "dataNascimento": "2022-01-01T10:00:00"
+                }
+            },
+            {
+                "id": 21,
+                "conteudo": "A independência do Brasil ocorreu em 1822, quando Dom Pedro proclamou a separação de Portugal. Dizenda a iconica frase 'Diga ao povo que fico'.",
+                "dataCriacao": "2022-02-15T09:45:00",
+                "materiaEnum": "Historia",
+                "usuario": {
+                    "id": 2,
+                    "nome": "João Silva",
+                    "email": "jf.silva@example.com",
+                    "senha": "senha753",
+                    "dataNascimento": "2002-01-01T10:00:00"
+                }
+            },
+            {
+                "id": 22,
+                "conteudo": "A Lei da Gravidade, formulada por Isaac Newton, descreve a força de atração entre corpos massivos.",
+                "dataCriacao": "2022-03-10T16:20:00",
+                "materiaEnum": "Fisica",
+                "usuario": {
+                    "id": 21,
+                    "nome": "Maria Santos",
+                    "email": "maria.santos@example.com",
+                    "senha": "senha456",
+                    "dataNascimento": "1990-05-15T14:30:00"
+                }
+            },
+            {
+                "id": 23,
+                "conteudo": "A Revolução Industrial teve início na Inglaterra durante o século XVIII e trouxe grandes transformações sociais e econômicas.",
+                "dataCriacao": "2022-04-20T11:00:00",
+                "materiaEnum": "Historia",
+                "usuario": {
+                    "id": 23,
+                    "nome": "Ana Oliveira",
+                    "email": "ana.oliveira@example.com",
+                    "senha": "senha987",
+                    "dataNascimento": "1998-09-20T09:15:00"
+                }
+            },
+            {
+                "id": 24,
+                "conteudo": "A célula é a menor unidade estrutural e funcional dos seres vivos.",
+                "dataCriacao": "2022-05-05T14:15:00",
+                "materiaEnum": "Biologia",
+                "usuario": {
+                    "id": 22,
+                    "nome": "Pedro Souza",
+                    "email": "pedro.souza@example.com",
+                    "senha": "senha789",
+                    "dataNascimento": "1985-12-10T08:45:00"
+                }
+            }
+        ],
+        "pageable": {
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "pageSize": 5,
+            "pageNumber": 0,
+            "unpaged": false,
+            "paged": true
+        },
+        "last": false,
+        "totalElements": 7,
+        "totalPages": 2,
+        "size": 5,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 5,
+        "empty": false
     }
 
 ```
@@ -396,13 +580,19 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 
 ```js
 
-    {        
-        "id": 1,        
-        "titulo": "Título do resumo 1",        
-        "conteudo": "Conteúdo do resumo 1",        
-        "dataCriacao": "2023-04-07T10:00:00",        
-        "materia": "MATEMATICA"    
-    }
+    {
+        "id": 23,
+        "conteudo": "A Revolução Industrial teve início na Inglaterra durante o século XVIII e trouxe grandes transformações sociais e econômicas.",
+        "dataCriacao": "2022-04-20T11:00:00",
+        "materiaEnum": "Historia",
+        "usuario": {
+            "id": 23,
+            "nome": "Ana Oliveira",
+            "email": "ana.oliveira@example.com",
+            "senha": "senha987",
+            "dataNascimento": "1998-09-20T09:15:00"
+        }
+}
 
 ```
 
@@ -435,10 +625,7 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {
-        "titulo": "Título do resumo 1",
-        "conteudo": "Novo conteúdo do resumo 1",
-        "dataCriacao": "2023-04-07T10:00:00",
-        "materia": "MATEMATICA"
+        "dataCriacao": "2023-04-07T10:00:00"
     }
 
 
@@ -475,18 +662,20 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 
 ```js
 
-    {
-        "pergunta": "Qual é a capital do Brasil?",
-        "alternativaA": "São Paulo",
-        "alternativaB": "Rio de Janeiro",
-        "alternativaC": "Brasília",
-        "alternativaD": "Belo Horizonte",
-        "resposta": "C",
-        "resolucao": "Em 1956, o então presidente Juscelino Kubitschek lançou o plano de construir uma nova capital para o Brasil, no centro do país, e em 21 de abril de 1960, Brasília foi oficialmente inaugurada como a nova capital do Brasil. A cidade foi projetada pelo arquiteto Oscar Niemeyer e pelo urbanista Lúcio Costa, e sua construção foi concluída em tempo recorde de apenas quatro anos. Desde então, Brasília tem sido a sede do governo federal e a capital do Brasil.",
-        "resumo": {
-            "id":"1"
-        },
-        "materia": "GEOGRAFIA"
+    {    
+        "pergunta": "Qual é o resultado da seguinte equação: 8 + 22 * 0?",
+        "alternativas": [
+            "4",
+            "6",
+            "8",
+            "10"
+        ],
+        "resposta": "8",
+        "resolucao": "A resposta correta é 8. A multiplicação tem precedência sobre a adição na ordem de operações.",
+        "materiaEnum": "Matematica",
+        "usuario": {
+            "id": 1
+        }
     }
 
 
@@ -507,42 +696,135 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 
 ```js
     {
-        {   
-            "id":"1",
-            "pergunta": "Qual é a capital do Brasil?",
-            "alternativaA": "São Paulo",
-            "alternativaB": "Rio de Janeiro",
-            "alternativaC": "Brasília",
-            "alternativaD": "Belo Horizonte",
-            "resposta": "C",
-            "resolucao": "Em 1956, o então presidente Juscelino Kubitschek lançou o plano de construir uma nova capital para o Brasil, no centro do país, e em 21 de abril de 1960, Brasília foi oficialmente inaugurada como a nova capital do Brasil. A cidade foi projetada pelo arquiteto Oscar Niemeyer e pelo urbanista Lúcio Costa, e sua construção foi concluída em tempo recorde de apenas quatro anos. Desde então, Brasília tem sido a sede do governo federal e a capital do Brasil.",
-            "resumo":{        
-                "id": 1,        
-                "titulo": "Título do resumo 1",        
-                "conteudo": "Conteúdo do resumo 1",        
-                "dataCriacao": "2023-04-07T10:00:00",        
-                "materia": "GEOGRAFIA"    
+        "content": [
+            {
+                "id": 1,
+                "pergunta": "Qual é a capital do Brasil?",
+                "alternativas": [
+                    "Rio de Janeiro",
+                    "São Paulo",
+                    "Brasília",
+                    "Salvador",
+                    "Curitiba"
+                ],
+                "resposta": "Brasília",
+                "resolucao": "A resposta correta é Brasília, que é a capital do Brasil.",
+                "materiaEnum": "Geografia",
+                "usuario": {
+                    "id": 1,
+                    "nome": "João Silva",
+                    "email": "joao.silva@example.com",
+                    "senha": "senha123",
+                    "dataNascimento": "2022-01-01T10:00:00"
+                }
             },
-            "materia": "GEOGRAFIA"
+            {
+                "id": 2,
+                "pergunta": "Qual é a capital da França?",
+                "alternativas": [
+                    "Paris",
+                    "Londres",
+                    "Berlim",
+                    "Roma",
+                    "Madri"
+                ],
+                "resposta": "Paris",
+                "resolucao": "A resposta correta é Paris, que é a capital da França.",
+                "materiaEnum": "Geografia",
+                "usuario": {
+                    "id": 1,
+                    "nome": "João Silva",
+                    "email": "joao.silva@example.com",
+                    "senha": "senha123",
+                    "dataNascimento": "2022-01-01T10:00:00"
+                }
+            },
+            {
+                "id": 3,
+                "pergunta": "Qual é o resultado da seguinte equação: 8 + 22 * 0?",
+                "alternativas": [
+                    "4",
+                    "6",
+                    "8",
+                    "10"
+                ],
+                "resposta": "8",
+                "resolucao": "A resposta correta é 8. A multiplicação tem precedência sobre a adição na ordem de operações.",
+                "materiaEnum": "Matematica",
+                "usuario": {
+                    "id": 1,
+                    "nome": "João Silva",
+                    "email": "joao.silva@example.com",
+                    "senha": "senha123",
+                    "dataNascimento": "2022-01-01T10:00:00"
+                }
+            },
+            {
+                "id": 21,
+                "pergunta": "Qual é o principal gás constituinte da atmosfera terrestre?",
+                "alternativas": [
+                    "Nitrogênio",
+                    "Oxigênio",
+                    "Dióxido de carbono",
+                    "Hidrogênio"
+                ],
+                "resposta": "Nitrogênio",
+                "resolucao": "O nitrogênio é o gás mais abundante na atmosfera terrestre, compreendendo cerca de 78% do volume total.",
+                "materiaEnum": "Quimica",
+                "usuario": {
+                    "id": 21,
+                    "nome": "Maria Santos",
+                    "email": "maria.santos@example.com",
+                    "senha": "senha456",
+                    "dataNascimento": "1990-05-15T14:30:00"
+                }
+            },
+            {
+                "id": 22,
+                "pergunta": "Quem foi o primeiro presidente do Brasil?",
+                "alternativas": [
+                    "Getúlio Vargas",
+                    "Juscelino Kubitschek",
+                    "Fernando Henrique Cardoso",
+                    "Deodoro da Fonseca"
+                ],
+                "resposta": "Deodoro da Fonseca",
+                "resolucao": "Deodoro da Fonseca foi o primeiro presidente do Brasil, assumindo o cargo em 1889.",
+                "materiaEnum": "Historia",
+                "usuario": {
+                    "id": 23,
+                    "nome": "Ana Oliveira",
+                    "email": "ana.oliveira@example.com",
+                    "senha": "senha987",
+                    "dataNascimento": "1998-09-20T09:15:00"
+                }
+            }
+        ],
+        "pageable": {
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "pageSize": 5,
+            "pageNumber": 0,
+            "unpaged": false,
+            "paged": true
         },
-        {
-            "id":"2",
-            "pergunta": "Qual é a fórmula da água?",
-            "alternativaA": "H2O",
-            "alternativaB": "CO2",
-            "alternativaC": "NO2",
-            "alternativaD": "NaCl",
-            "resposta": "A",
-            "resolucao": "A fórmula da água é H2O, o que significa que uma molécula de água é composta por dois átomos de hidrogênio (H) e um átomo de oxigênio (O). Essa fórmula química representa a proporção dos átomos na molécula de água. A ligação química entre os átomos ocorre por meio de ligações covalentes, em que os átomos compartilham elétrons. A água é uma substância essencial para a vida, e suas propriedades únicas são devidas às ligações de hidrogênio entre as moléculas de água, que resultam em uma estrutura molecular tetraédrica e em propriedades como alta tensão superficial e ponto de fusão e ebulição elevados.",
-            "resumo":{        
-                "id": 1,        
-                "titulo": "Título do resumo 1",        
-                "conteudo": "Conteúdo do resumo 1",        
-                "dataCriacao": "2023-04-07T10:00:00",        
-                "materia": "QUIMICA"    
-            },
-            "materia": "QUIMICA"
-        }
+        "last": false,
+        "totalElements": 11,
+        "totalPages": 3,
+        "size": 5,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 5,
+        "empty": false
     }
 
 ```
@@ -562,23 +844,25 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 
 ```js
 
-    {   
-        "id":"1",
-        "pergunta": "Qual é a capital do Brasil?",
-        "alternativaA": "São Paulo",
-        "alternativaB": "Rio de Janeiro",
-        "alternativaC": "Brasília",
-        "alternativaD": "Belo Horizonte",
-        "resposta": "C",
-        "resolucao": "Em 1956, o então presidente Juscelino Kubitschek lançou o plano de construir uma nova capital para o Brasil, no centro do país, e em 21 de abril de 1960, Brasília foi oficialmente inaugurada como a nova capital do Brasil. A cidade foi projetada pelo arquiteto Oscar Niemeyer e pelo urbanista Lúcio Costa, e sua construção foi concluída em tempo recorde de apenas quatro anos. Desde então, Brasília tem sido a sede do governo federal e a capital do Brasil.",
-        "resumo":{        
-            "id": 1,        
-            "titulo": "Título do resumo 1",        
-            "conteudo": "Conteúdo do resumo 1",        
-            "dataCriacao": "2023-04-07T10:00:00",        
-            "materia": "GEOGRAFIA"    
-        },
-        "materia": "GEOGRAFIA"
+    {
+        "id": 3,
+        "pergunta": "Qual é o resultado da seguinte equação: 8 + 22 * 0?",
+        "alternativas": [
+            "4",
+            "6",
+            "8",
+            "10"
+        ],
+        "resposta": "8",
+        "resolucao": "A resposta correta é 8. A multiplicação tem precedência sobre a adição na ordem de operações.",
+        "materiaEnum": "Matematica",
+        "usuario": {
+            "id": 1,
+            "nome": "João Silva",
+            "email": "joao.silva@example.com",
+            "senha": "senha123",
+            "dataNascimento": "2022-01-01T10:00:00"
+        }
     }
 
 ```
@@ -611,22 +895,7 @@ Uma api para o projeto StudIt onde geramos material de estudo para alunos de esc
 ```js
 
     {   
-        "id":"1",
-        "pergunta": "Qual foi a primeira capital do Brasil?",
-        "alternativaA": "Salvador",
-        "alternativaB": "Rio de Janeiro",
-        "alternativaC": "Brasília",
-        "alternativaD": "Belo Horizonte",
-        "resposta": "A",
-        "resolucao": "A primeira capital do Brasil foi a cidade de Salvador, localizada no estado da Bahia. Salvador foi fundada pelos portugueses em 1549, e se tornou a capital da colônia portuguesa no Brasil. Durante a época colonial, Salvador foi um importante centro administrativo, econômico e cultural, e sua influência pode ser vista até hoje na arquitetura, gastronomia e tradições da região. A capital do Brasil foi transferida para o Rio de Janeiro em 1763, durante o período colonial, e posteriormente para Brasília em 1960, após a construção da nova capital federal.",
-        "resumo":{        
-            "id": 1,        
-            "titulo": "Título do resumo 1",        
-            "conteudo": "Conteúdo do resumo 1",        
-            "dataCriacao": "2023-04-07T10:00:00",        
-            "materia": "GEOGRAFIA"    
-        },
-        "materia": "GEOGRAFIA"
+        "pergunta": "Qual é o resultado da seguinte equação: 2 + 2 * 3?"
     }
 
 ```
