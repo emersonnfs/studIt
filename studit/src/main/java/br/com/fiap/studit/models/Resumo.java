@@ -29,4 +29,9 @@ public class Resumo {
 
     @Column(name = "resumo_materia")
     private MateriaEnum materiaEnum;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 }

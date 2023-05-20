@@ -2,9 +2,15 @@ package br.com.fiap.studit.controllers;
 
 import br.com.fiap.studit.models.Resumo;
 import br.com.fiap.studit.services.ResumoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +27,19 @@ public class ResumoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Resumo>> getAllResumos() {
-        List<Resumo> resumos = resumoService.getAllResumos();
+    public ResponseEntity<Page<Resumo>> getAllResumos(@RequestParam(required = false) String conteudo,
+                                                      @RequestParam(required = false) String materia,
+                                                      @PageableDefault(sort = "id", direction = Sort.Direction.ASC, size = 5) Pageable pageable) {
+        Page<Resumo> resumos;
+        if (!StringUtils.isEmpty(conteudo) && !StringUtils.isEmpty(materia)) {
+            resumos = resumoService.getAllResumosByConteudoAndMateria(conteudo, pageable, materia);
+        } else if (!StringUtils.isEmpty(conteudo)) {
+            resumos = resumoService.getAllResumosByConteudo(conteudo, pageable);
+        } else if (!StringUtils.isEmpty(materia)) {
+            resumos = resumoService.getAllResumosByMateria(pageable, materia);
+        } else {
+            resumos = resumoService.getAllResumos(pageable);
+        }
         return ResponseEntity.ok(resumos);
     }
 
@@ -33,13 +50,13 @@ public class ResumoController {
     }
 
     @PostMapping
-    public ResponseEntity<Resumo> saveResumo(@RequestBody Resumo resumo) {
+    public ResponseEntity<Resumo> saveResumo(@RequestBody @Valid Resumo resumo) {
         Resumo savedResumo = resumoService.saveResumo(resumo);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedResumo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Resumo> updateResumo(@PathVariable Long id, @RequestBody Resumo resumo) {
+    public ResponseEntity<Resumo> updateResumo(@PathVariable Long id, @RequestBody @Valid Resumo resumo) {
         Optional<Resumo> existingResumo = resumoService.getResumoById(id);
         if (existingResumo.isPresent()) {
             resumo.setId(id);
