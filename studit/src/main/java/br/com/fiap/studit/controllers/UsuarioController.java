@@ -43,6 +43,11 @@ public class UsuarioController {
         return usuario.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+        Optional<Usuario> usuario = usuarioService.login(usuarioDTO.getEmail(), usuarioDTO.getSenha());
+        return usuario.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
     @PostMapping
     public ResponseEntity<Usuario> saveUsuario(@RequestBody @Valid Usuario usuario) {
         Usuario savedUsuario = usuarioService.saveUsuario(usuario);
