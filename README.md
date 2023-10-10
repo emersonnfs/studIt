@@ -1,5 +1,15 @@
 # StudIt
 
+## Integrantes 2-TDSR
+  
+  Abner Rodrigues Ferreira - RM: 93576
+  Davi Oliveira Da Silva - RM: 95535
+  Emerson Nascimento Figueredo Silva - RM:95199
+  Guilherme De Jesus Ferreira - RM: 95542
+  João Victor Oliveira Da Silva - RM: 94231
+
+---
+
 ## How to Do Cloud
 
 ### Criado o Servidor SQL e o Banco no portal da Azure
