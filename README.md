@@ -47,7 +47,7 @@
 ---
 
 ## Exemplo de Operações GET, POST, PUT e DELETE
-   ``` js
+   ``` json
     {
     	"info": {
     		"_postman_id": "313223fd-dc47-4276-9f53-14c0f97c8199",
